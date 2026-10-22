@@ -1,0 +1,28 @@
+<?php
+
+class DatabaseConnection
+{
+    private static $connection = null;
+
+    public static function getConnection()
+    {
+        if (self::$connection === null) {
+            try {
+                $dsn = "mysql:host=localhost;dbname=materi_pdo;charset=utf8";
+                $username = "root";
+                $password = "";
+
+                self::$connection = new PDO($dsn, $username, $password);
+
+                self::$connection->setAttribute(
+                    PDO::ATTR_ERRMODE,
+                    PDO::ERRMODE_EXCEPTION
+                );
+            } catch (PDOException $e) {
+                die("Koneksi database gagal: " . $e->getMessage());
+            }
+        }
+
+        return self::$connection;
+    }
+}
